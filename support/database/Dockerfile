@@ -15,22 +15,11 @@ RUN apt-get update \
     && apt-get install less \
     && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /etc/postgresql/${PG_VERSION}/main \
-    && ln -sf ${PG_DATADIR}/postgresql.conf /etc/postgresql/${PG_VERSION}/main/postgresql.conf \
-    && ln -sf ${PG_DATADIR}/pg_hba.conf /etc/postgresql/${PG_VERSION}/main/pg_hba.conf \
-    && ln -sf ${PG_DATADIR}/pg_ident.conf /etc/postgresql/${PG_VERSION}/main/pg_ident.conf \
     && rm -rf /var/lib/apt/lists/*
 
 
 # Adjust PostgreSQL configuration so that remote connections to the
 # database are possible.
-RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/${PG_VERSION}/main/pg_hba.conf
+RUN echo "host all  all    0.0.0.0/0  md5" >> ${PG_DATADIR}/pg_hba.conf
 
-# And add ``listen_addresses`` to ``/etc/postgresql/${PG_VERSION}/main/postgresql.conf``
-RUN echo "listen_addresses='*'" >> /etc/postgresql/${PG_VERSION}/main/postgresql.conf
-#RUN echo "logging_collector = on" >> /etc/postgresql/${PG_VERSION}/main/postgresql.conf
-#ADD postgres-edit.sed /var/local
-#RUN sed -i -f /var/local/postgres-edit.sed /etc/postgresql/${PG_VERSION}/main/postgresql.conf
-#RUN echo "log_connections = on" >> /etc/postgresql/${PG_VERSION}/main/postgresql.conf
-#RUN echo "log_disconnections = on" >> /etc/postgresql/${PG_VERSION}/main/postgresql.conf
-#RUN echo "log_statement = 'all'" >> /etc/postgresql/${PG_VERSION}/main/postgresql.conf
-#RUN echo "log_line_prefix = '%t &lt;%d %u %r&gt; %%'" >> /etc/postgresql/${PG_VERSION}/main/postgresql.conf
+RUN echo "listen_addresses='*'" >> ${PG_DATADIR}/postgresql.conf
