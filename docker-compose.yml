@@ -1,0 +1,67 @@
+version: "3"
+
+services:
+    web:
+        image: miholeus/nginx:latest
+        volumes:
+            - .:/app
+            - ./support/nginx/site.conf:/etc/nginx/conf.d/default.conf
+        ports:
+            - "8081:80"
+        links:
+            - php
+        networks:
+            - app_network
+    php:
+        image: miholeus/php71:development
+        tty: true
+        depends_on:
+            - database
+            - redis
+        volumes:
+            - ./:/app:delegated
+            - ./support/php/log.conf:/usr/local/etc/php-fpm.d/zz-log.conf
+        environment:
+            - SYMFONY_ENV=dev
+            - SYMFONY_DEBUG=1
+            - SYMFONY__DATABASE__USER=${DB_USER}
+            - SYMFONY__DATABASE__NAME=${DB_NAME}
+            - SYMFONY__DATABASE__PASS=${DB_PASS}
+            - SYMFONY__APP__SECRET=${APP_SECRET}
+        working_dir: /app
+        networks:
+            - afr_app_network
+            - app_network
+    database:
+        build: 'support/database'
+        volumes:
+            - postgres_db_data:/var/lib/postgresql/data
+        ports:
+            - "5434:5432"
+        environment:
+            POSTGRES_DB: ${DB_NAME}
+            POSTGRES_USER: ${DB_USER}
+            POSTGRES_PASSWORD: ${DB_PASS}
+        networks:
+            - app_network
+    redis:
+        image: redis:3.2-alpine
+        volumes:
+            - redis_db_data:/var/lib/redis
+        ports:
+            - "6381:6379"
+        networks:
+            - app_network
+
+volumes:
+    postgres_db_data:
+    redis_db_data:
+
+networks:
+    app_network:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+            -
+              subnet: 172.31.0.0/16
