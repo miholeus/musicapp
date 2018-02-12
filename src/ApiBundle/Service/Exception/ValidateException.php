@@ -1,0 +1,23 @@
+<?php
+/**
+ * This file is part of ApiBundle\Service\Exception package.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+namespace ApiBundle\Service\Exception;
+
+use Symfony\Component\HttpKernel\Exception\HttpException;
+
+/**
+ * Base form validation exception
+ */
+class ValidateException extends HttpException
+{
+
+    public function __construct($message)
+    {
+        parent::__construct(400, $message);
+    }
+
+}
