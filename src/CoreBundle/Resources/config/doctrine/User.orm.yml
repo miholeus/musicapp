@@ -1,0 +1,114 @@
+CoreBundle\Entity\User:
+    type: entity
+    table: users
+    repositoryClass: CoreBundle\Repository\UserRepository
+    indexes:
+        role_id__idx:
+            columns:
+                - role_id
+        status_id__idx:
+            columns:
+                - status_id
+        login_credenitials__idx:
+            columns:
+                - login
+                - password
+        user_name__idx:
+            columns:
+                - lastname
+                - firstname
+    uniqueConstraints:
+        email__idx:
+            columns:
+                - email
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        firstname:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+        lastname:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+        login:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+        email:
+            type: string
+            nullable: true
+            length: 255
+            fixed: false
+        password:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+        lastLoginOn:
+            type: datetime
+            nullable: true
+            column: last_login_on
+        createdOn:
+            type: datetime
+            nullable: true
+            column: created_on
+        updatedOn:
+            type: datetime
+            nullable: true
+            column: updated_on
+        isActive:
+            type: boolean
+            nullable: true
+            column: is_active
+        isBlocked:
+            type: boolean
+            nullable: false
+            options:
+                default: false
+            column: is_blocked
+        isDeleted:
+            type: boolean
+            nullable: false
+            options:
+                default: false
+            column: is_deleted
+        isSuperuser:
+            type: boolean
+            nullable: true
+            column: is_superuser
+    manyToOne:
+        status:
+            targetEntity: UserStatus
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                status_id:
+                    nullable: false
+                    referencedColumnName: id
+                    onDelete: RESTRICT
+            orphanRemoval: false
+        role:
+            targetEntity: UserRole
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            fetch: EAGER
+            joinColumns:
+                role_id:
+                    nullable: false
+                    referencedColumnName: id
+                    onDelete: RESTRICT
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
