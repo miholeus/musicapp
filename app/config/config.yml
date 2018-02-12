@@ -18,15 +18,14 @@ framework:
     form: ~
     csrf_protection: ~
     validation: { enable_annotations: true }
-    #serializer: { enable_annotations: true }
+    serializer: { enable_annotations: true }
     templating:
         engines: ['twig']
     default_locale: '%locale%'
     trusted_hosts: ~
     session:
         # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
-        handler_id: session.handler.native_file
-        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+        handler_id:  snc_redis.session.handler
     fragments: ~
     http_method_override: true
     assets: ~
@@ -41,13 +40,15 @@ twig:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver: pdo_mysql
+        driver: pdo_pgsql
         host: '%database_host%'
         port: '%database_port%'
         dbname: '%database_name%'
         user: '%database_user%'
         password: '%database_password%'
         charset: UTF8
+        mapping_types:
+            enum: string
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: '%kernel.project_dir%/var/data/data.sqlite'
@@ -60,6 +61,12 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
 
+doctrine_migrations:
+    dir_name: "%kernel.root_dir%/DoctrineMigrations"
+    namespace: App\Migrations
+    table_name: migration_versions
+    name: App Migrations
+
 # Swiftmailer Configuration
 swiftmailer:
     transport: '%mailer_transport%'
@@ -67,3 +74,98 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
+
+snc_redis:
+    clients:
+        default:
+            type: predis
+            alias: default
+            dsn: "redis://%redis_server%"
+            logging: "%kernel.debug%"
+            options:
+                prefix: "%project_name%:"
+        cache:
+            type: predis
+            alias: cache
+            dsn: "redis://%redis_server%/1"
+            options:
+                profile: 2.2
+                prefix: "%project_name%:"
+                connection_timeout: 10
+                read_write_timeout: 30
+        session:
+            type: predis
+            alias: session
+            dsn: "redis://%redis_server%/2"
+            options:
+                prefix: "%project_name%:"
+        cluster:
+            type: predis
+            alias: cluster
+            dsn:
+                - "redis://%redis_server%/3?weight=10"
+                - "redis://%redis_server%/4?weight=5"
+                - "redis://%redis_server%/5?weight=1"
+            options:
+                prefix: "%project_name%:"
+    session:
+        client: session
+        locking: false
+        ttl: "%auth_key_ttl%"
+
+#fos_rest:
+#    routing_loader:
+#        default_format: json
+#    view:
+#        formats:
+#            json: true
+#            xml: false
+#        templating_formats:
+#            html: true
+#        force_redirects:
+#            html: true
+#        failed_validation: HTTP_BAD_REQUEST
+#        default_engine: twig
+#        empty_content: 204
+##        view_response_listener: force
+#    service:
+#        view_handler: api.view_handler
+#    disable_csrf_role: ROLE_API
+##    body_converter:
+##        enabled: true
+##        validate: true
+##        validation_errors_argument: validationErrors
+#    param_fetcher_listener: true
+#    format_listener:
+#        enabled: true
+#        rules:
+#          - { path: '^/api/v1', fallback_format: 'json' }
+#          - { path: '^/', stop: true }
+##    unauthorized_challenge: "Basic realm=\"Restricted Area\""
+#    allowed_methods_listener: true
+#    access_denied_listener:
+#        json: true
+#    body_listener:
+#        array_normalizer: fos_rest.normalizer.camel_keys
+#    exception:
+#        enabled: true
+#        codes:
+#            'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
+#            'Doctrine\ORM\OptimisticLockException': HTTP_CONFLICT
+#            'ApiBundle\Security\BadCredentialsException': 403
+#        messages:
+#            'Symfony\Component\Routing\Exception\ResourceNotFoundException': true
+#    # these options are available in 2nd version of bundle
+##    zone:
+##        - { path: ^/api/* }
+##    versioning: true
+
+nelmio_api_doc:
+    name: API
+    swagger:
+        info:
+            title: API
+            description: API
+        api_version:  1
+        api_base_path: /api/v1
+        swagger_version: '2.0'
