@@ -1,0 +1,12 @@
+services:
+    core.service.token_management:
+        class: CoreBundle\Service\Token\TokenManagementService
+        arguments: ['@service_container']
+        abstract: true
+    core.service.token.storage:
+        class: CoreBundle\Service\Token\Storage
+        calls:
+            - ['setClient', ['@snc_redis.session']]
+    core.service.authenticate:
+        class: CoreBundle\Service\AuthenticateService
+        arguments: ['@service_container']
