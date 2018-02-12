@@ -1,0 +1,31 @@
+tests:
+    "Tests should run in a reasonable time":
+        command: "phpunit"
+        assertions:
+            - "main.wall_time < 25s"
+    "Tests should use 1 redis connection":
+        assertions:
+            -
+                label: null
+                expression: 'metrics.redis.connections.count <= 1'
+        path: '/.*'
+        methods:
+            - ANY
+    "Tests should use optimized composer":
+        assertions:
+            -
+                label: null
+                expression: 'metrics.composer.autoload.find_file.count <= 50'
+        path: '/.*'
+        command: '.*'
+        methods:
+            - ANY
+    "Tests should use cached YAML files":
+        assertions:
+            -
+                label: null
+                expression: 'is_dev() or metrics.symfony.yaml.reads.count == 0'
+        path: '/.*'
+        methods:
+            - ANY
+
