@@ -13,6 +13,9 @@ services:
                 - '@serializer.normalizer.object'
             1:
                 - '@core.encoder.json'
+    core.doctrine.entity_listener_resolver:
+        class: CoreBundle\Doctrine\EntityListenerResolver
+        arguments: [ "@service_container" ]
     user.listener:
         class: CoreBundle\Entity\Listener\UserListener
         arguments: ['@service_container']
@@ -26,3 +29,8 @@ services:
         parent: core.user_aware_service
         calls:
           - ['setPasswordEncoder', ['@security.password_encoder']]
+    security.authentication.success_handler:
+        class: CoreBundle\Service\Handler\AuthenticationSuccessHandler
+        arguments: ['@security.http_utils', '@service_container', {}]
+        tags:
+            - { name: 'monolog.logger', channel: 'security'}
