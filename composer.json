@@ -45,6 +45,13 @@
         "doctrine/doctrine-fixtures-bundle": "dev-master",
         "mikey179/vfsStream": "^1.6"
     },
+    "repositories" : [
+        {
+            "type" : "git",
+            "url"  : "https://github.com/miholeus/DoctrineFixturesBundle.git",
+            "name" : "doctrine/doctrine-fixtures-bundle"
+        }
+    ],
     "scripts": {
         "symfony-scripts": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
