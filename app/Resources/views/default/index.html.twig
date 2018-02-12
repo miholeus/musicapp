@@ -4,7 +4,7 @@
     <div id="wrapper">
         <div id="container">
             <div id="welcome">
-                <h1><span>Welcome to</span> Symfony {{ constant('Symfony\\Component\\HttpKernel\\Kernel::VERSION') }}</h1>
+                <h1><span>Welcome to</span> Music App</h1>
             </div>
 
             <div id="status">
@@ -36,8 +36,8 @@
                     </svg>
 
                     Read the documentation to learn
-                    <a href="https://symfony.com/doc/{{ constant('Symfony\\Component\\HttpKernel\\Kernel::VERSION')[:3] }}/page_creation.html">
-                        How to create your first page in Symfony
+                    <a href="{{ url('nelmio_api_doc_index') }}">
+                        Browse API documentation
                     </a>
                 </p>
             </div>
