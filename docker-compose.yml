@@ -30,7 +30,6 @@ services:
             - SYMFONY__APP__SECRET=${APP_SECRET}
         working_dir: /app
         networks:
-            - afr_app_network
             - app_network
     database:
         build: 'support/database'
