@@ -2,10 +2,26 @@
 
 namespace CoreBundle\Entity;
 
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 /**
  * User
+ *
+ * @UniqueEntity(
+ *     fields = {"email"},
+ *     errorPath = "email",
+ *     message = "This email is already in use"
+ * )
+ * @UniqueEntity(
+ *     fields = {"login"},
+ *     errorPath = "login",
+ *     message = "This login is already in use"
+ * )
  */
-class User
+class User implements UserInterface, \Serializable, AdvancedUserInterface
 {
     /**
      * @var int
@@ -14,21 +30,27 @@ class User
 
     /**
      * @var string
+     * @Assert\NotBlank()
+     * @Assert\Length(min=3, max=50)
      */
     private $firstname;
 
     /**
      * @var string
+     * @Assert\NotBlank()
+     * @Assert\Length(min=3, max=50)
      */
     private $lastname;
 
     /**
      * @var string
+     * @Assert\NotBlank()
      */
     private $login;
 
     /**
      * @var string|null
+     * @Assert\Email()
      */
     private $email;
 
@@ -74,14 +96,133 @@ class User
 
     /**
      * @var \CoreBundle\Entity\UserStatus
+     * @Assert\NotBlank()
      */
     private $status;
 
     /**
+     * Main user role
+     *
      * @var \CoreBundle\Entity\UserRole
+     * @Assert\NotBlank()
      */
     private $role;
 
+    /**
+     * List of user roles
+     *
+     * @var array
+     */
+    private $roles = [];
+
+    public function isAccountNonExpired()
+    {
+        return !$this->isDeleted;
+    }
+
+    public function isAccountNonLocked()
+    {
+        return !$this->isBlocked;
+    }
+
+    public function isCredentialsNonExpired()
+    {
+        return true;
+    }
+
+    public function isEnabled()
+    {
+        return $this->isActive;
+    }
+
+    public function serialize()
+    {
+        return serialize([
+            $this->id,
+            $this->login,
+            $this->password,
+            $this->roles,
+            $this->isActive
+        ]);
+    }
+
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+            $this->login,
+            $this->password,
+            $this->roles,
+            $this->isActive
+            ) = unserialize($serialized);
+    }
+
+
+    public function getRoles()
+    {
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
+    }
+
+
+    /**
+     * Add user role
+     *
+     * @param $role
+     */
+    public function addRole($role)
+    {
+        $this->roles[] = $role;
+    }
+
+    public function getUsername()
+    {
+        return $this->login;
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+
+    /**
+     * @param array $data
+     * @return User
+     */
+    public static function fromArray(array $data)
+    {
+        $self = new self();
+        foreach ($data as $key => $value) {
+            $self->{"set" . ucfirst($key)}($value);
+        }
+
+        return $self;
+    }
+
+    public function __construct(array $data = array())
+    {
+        if (!empty($data)) {
+            $this->setFromArray($data);
+        } else {
+            $this->createdOn = new \DateTime();
+        }
+
+        $this->updatedOn = new \DateTime();
+    }
+
+
+    public function __toString()
+    {
+        return sprintf("%s %s", $this->getFirstname(), $this->getLastname());
+    }
 
     /**
      * Get id.
@@ -189,6 +330,16 @@ class User
         return $this->email;
     }
 
+
+    /**
+     * Get salt
+     *
+     * @return string
+     */
+    public function getSalt()
+    {
+        // no salt used
+    }
     /**
      * Set password.
      *
@@ -427,5 +578,17 @@ class User
     public function getRole()
     {
         return $this->role;
+    }
+
+    /**
+     * Set data from array
+     *
+     * @param array $data
+     */
+    public function setFromArray(array $data)
+    {
+        foreach ($data as $key => $value) {
+            $this->{"set" . ucfirst($key)}($value);
+        }
     }
 }

@@ -1,0 +1,27 @@
+imports:
+   - { resource: "services/repositories.yml" }
+   - { resource: "services/events.yml" }
+
+services:
+    core.encoder.json:
+        class: Symfony\Component\Serializer\Encoder\JsonEncoder
+    core.serializer.default:
+        class: Symfony\Component\Serializer\Serializer
+        arguments:
+            0:
+                - '@serializer.normalizer.object'
+            1:
+                - '@core.encoder.json'
+    user.listener:
+        class: CoreBundle\Entity\Listener\UserListener
+        arguments: ['@service_container']
+        tags:
+            - { name: doctrine.orm.entity_listener }
+    core.user_aware_service:
+        class: CoreBundle\Service\UserAwareService
+        arguments: ['@doctrine.orm.entity_manager', '@security.token_storage', '@event.notification_manager']
+    user.service:
+        class:  CoreBundle\Service\User
+        parent: core.user_aware_service
+        calls:
+          - ['setPasswordEncoder', ['@security.password_encoder']]

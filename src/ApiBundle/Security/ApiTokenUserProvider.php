@@ -37,6 +37,7 @@ class ApiTokenUserProvider implements UserProviderInterface
      *
      * @param $token
      * @return null|string
+     * @throws \CoreBundle\Service\Token\ClientException
      */
     public function getUsernameForApiToken($token)
     {
