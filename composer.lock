@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "07c5162d587f7b9ebc36e55416b5953d",
+    "content-hash": "11092986cfc802906eead59c2ee7ae80",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -3248,7 +3248,7 @@
                 "Fixture",
                 "persistence"
             ],
-            "time": "2018-01-26T05:35:21+00:00"
+            "time": "2018-01-26 05:35:21"
         },
         {
             "name": "mikey179/vfsStream",
