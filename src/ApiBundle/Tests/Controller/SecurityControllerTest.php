@@ -10,7 +10,7 @@ class SecurityControllerTest extends ControllerTestCase
     {
         $client = $this->getClient();
 
-        $client->request('POST', '/api/v1/auth/logins', ['login' => 'demo', 'password' => 'test']);
+        $client->request('POST', '/api/v1/auth/logins', ['login' => 'foo', 'password' => 'test']);
 
         $response = $client->getResponse();
         $this->assert404($response);
@@ -38,7 +38,7 @@ class SecurityControllerTest extends ControllerTestCase
 
         /** @var \CoreBundle\Entity\User $user */
         $user = $factory->createUser();
-        $password = 'test';
+        $password = 'demo';
 
         /** @var \CoreBundle\Service\User $userService */
         $userService = static::$kernel->getContainer()->get('user.service');

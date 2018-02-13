@@ -2,6 +2,8 @@ CoreBundle\Entity\User:
     type: entity
     table: users
     repositoryClass: CoreBundle\Repository\UserRepository
+    entityListeners:
+        CoreBundle\Entity\Listener\UserListener: ~
     indexes:
         role_id__idx:
             columns:

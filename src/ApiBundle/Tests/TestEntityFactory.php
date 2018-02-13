@@ -25,6 +25,7 @@ class TestEntityFactory
     /**
      * @return User
      * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Exception
      */
     public function createUser()
     {
@@ -36,6 +37,10 @@ class TestEntityFactory
         $user->setFirstname($this->getRandomString(15));
         $user->setLastname($this->getRandomString(15));
         $user->setLogin($this->getRandomString(15));
+
+        $password = 'demo';
+
+        $user->setPassword($password);
         $user->setEmail($this->getRandomString(15) . '@' . $this->getRandomString(5) . '.ru');
         $user->setIsActive(true);
         $user->setIsBlocked(false);

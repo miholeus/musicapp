@@ -21,7 +21,8 @@ Testing
 
 * Create user `createuser musicapp_test`
 * Set permissions to user
-`psql -c "alter role musicapp_test with createdb" -d test`
+`psql -c "alter role musicapp_test with createdb" -d musicapp_test`
+`psql -c "alter role musicapp_test with password 'GfzDn9pS'"`
 * Run command 
 `bin/console doctrine:database:create --env=test`
 * Apply migrations

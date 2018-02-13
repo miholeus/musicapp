@@ -14,3 +14,26 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
+
+doctrine:
+    dbal:
+        host: '%database_host%'
+        dbname: musicapp_test
+        user: musicapp_test
+        password: GfzDn9pS
+
+security:
+    firewalls:
+        main:
+            anonymous: ~
+        api:
+            stateless: false
+
+snc_redis:
+    clients:
+        default:
+            dsn: "redis://%redis_server%/8"
+        cache:
+            dsn: "redis://%redis_server%/8"
+        session:
+            dsn: "redis://%redis_server%/8"
