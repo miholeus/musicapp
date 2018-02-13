@@ -5,3 +5,9 @@ services:
     event.notification_manager:
         class: CoreBundle\Event\NotificationManager
         arguments: ['@event.event_dispatcher']
+    event.listener.votes:
+        class: CoreBundle\Event\Listener\VoteListener
+        arguments: ['@repository.vote_repository']
+        tags:
+            - {name: "kernel.event_listener", event: "vote.add", method: "onAddVoteEvent"}
+            - {name: "kernel.event_listener", event: "vote.revoke", method: "onRevokeVoteEvent"}
