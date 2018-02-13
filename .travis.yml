@@ -5,6 +5,7 @@ services:
 
 before_install:
   - cp .env.dist .env
+  - cp app/config/{parameters.yml.dist,parameters.yml}
   - docker-compose up -d
   - docker-compose ps
 
