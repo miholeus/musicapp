@@ -191,6 +191,11 @@ class ControllerTestCase extends WebTestCase
         $this->assertEquals(204, $response->getStatusCode(), $response->headers);
     }
 
+    protected function assert200(Response $response)
+    {
+        $this->assertEquals(200, $response->getStatusCode(), $response->headers);
+    }
+
     /**
      * @return Client
      */
