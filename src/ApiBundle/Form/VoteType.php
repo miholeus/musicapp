@@ -25,7 +25,7 @@ class VoteType extends AbstractType
      */
     private $tokenStorage;
 
-    public function __construct(TokenStorage $tokenStorage)
+    public function __construct(TokenStorage $tokenStorage = null)
     {
         $this->tokenStorage = $tokenStorage;
     }
