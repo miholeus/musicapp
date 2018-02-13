@@ -1,0 +1,16 @@
+parameters:
+    api.data.transformer.manager_class: 'ApiBundle\Service\Transformer\Manager'
+    api.data.transformer.scope_class: 'ApiBundle\Service\Scope'
+    api.data.serializer_class: 'ApiBundle\Service\Serializer\ArraySerializer'
+
+services:
+    api.data.serializer:
+        class: "%api.data.serializer_class%"
+    api.data.transformer.scope_manager:
+        class: ApiBundle\Service\Transformer\ScopeManager
+        calls:
+          - [setScopeClass, ['%api.data.transformer.scope_class%']]
+          - [setSerializer, ['@api.data.serializer']]
+    api.data.transformer.manager:
+        class: "%api.data.transformer.manager_class%"
+        arguments: ['@api.data.transformer.scope_manager']

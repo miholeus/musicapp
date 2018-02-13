@@ -111,52 +111,52 @@ snc_redis:
         locking: false
         ttl: "%auth_key_ttl%"
 
-#fos_rest:
-#    routing_loader:
-#        default_format: json
-#    view:
-#        formats:
-#            json: true
-#            xml: false
-#        templating_formats:
-#            html: true
-#        force_redirects:
-#            html: true
-#        failed_validation: HTTP_BAD_REQUEST
-#        default_engine: twig
-#        empty_content: 204
-##        view_response_listener: force
-#    service:
-#        view_handler: api.view_handler
-#    disable_csrf_role: ROLE_API
-##    body_converter:
-##        enabled: true
-##        validate: true
-##        validation_errors_argument: validationErrors
-#    param_fetcher_listener: true
-#    format_listener:
+fos_rest:
+    routing_loader:
+        default_format: json
+    view:
+        formats:
+            json: true
+            xml: false
+        templating_formats:
+            html: true
+        force_redirects:
+            html: true
+        failed_validation: HTTP_BAD_REQUEST
+        default_engine: twig
+        empty_content: 204
+#        view_response_listener: force
+    service:
+        view_handler: api.view_handler
+    disable_csrf_role: ROLE_API
+#    body_converter:
 #        enabled: true
-#        rules:
-#          - { path: '^/api/v1', fallback_format: 'json' }
-#          - { path: '^/', stop: true }
-##    unauthorized_challenge: "Basic realm=\"Restricted Area\""
-#    allowed_methods_listener: true
-#    access_denied_listener:
-#        json: true
-#    body_listener:
-#        array_normalizer: fos_rest.normalizer.camel_keys
-#    exception:
-#        enabled: true
-#        codes:
-#            'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
-#            'Doctrine\ORM\OptimisticLockException': HTTP_CONFLICT
-#            'ApiBundle\Security\BadCredentialsException': 403
-#        messages:
-#            'Symfony\Component\Routing\Exception\ResourceNotFoundException': true
-#    # these options are available in 2nd version of bundle
-##    zone:
-##        - { path: ^/api/* }
-##    versioning: true
+#        validate: true
+#        validation_errors_argument: validationErrors
+    param_fetcher_listener: true
+    format_listener:
+        enabled: true
+        rules:
+          - { path: '^/api/v1', fallback_format: 'json' }
+          - { path: '^/', stop: true }
+#    unauthorized_challenge: "Basic realm=\"Restricted Area\""
+    allowed_methods_listener: true
+    access_denied_listener:
+        json: true
+    body_listener:
+        array_normalizer: fos_rest.normalizer.camel_keys
+    exception:
+        enabled: true
+        codes:
+            'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
+            'Doctrine\ORM\OptimisticLockException': HTTP_CONFLICT
+            'ApiBundle\Security\BadCredentialsException': 403
+        messages:
+            'Symfony\Component\Routing\Exception\ResourceNotFoundException': true
+    # these options are available in 2nd version of bundle
+#    zone:
+#        - { path: ^/api/* }
+#    versioning: true
 
 nelmio_api_doc:
     name: API
