@@ -2,3 +2,6 @@ api_security:
     type: rest
     prefix: 'auth'
     resource: "ApiBundle\\Controller\\SecurityController"
+api_genres:
+    type: rest
+    resource: "ApiBundle\\Controller\\GenreController"

@@ -22,7 +22,18 @@ class Instrument
      */
     private $photo;
 
-
+    /**
+     * @param array $data
+     * @return Instrument
+     */
+    public static function fromArray(array $data)
+    {
+        $self = new self();
+        foreach ($data as $key => $value) {
+            $self->$key = $value;
+        }
+        return $self;
+    }
     /**
      * Get id.
      *

@@ -4,3 +4,13 @@ services:
         factory: ['@doctrine.orm.default_entity_manager', getRepository]
         arguments:
             - CoreBundle\Entity\User
+    repository.genre_repository:
+        class: CoreBundle\Repository\InstrumentRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - CoreBundle\Entity\Instrument
+    repository.vote_repository:
+        class: CoreBundle\Repository\VoteRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - CoreBundle\Entity\Vote

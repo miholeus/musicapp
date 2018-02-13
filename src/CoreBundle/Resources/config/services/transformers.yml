@@ -14,3 +14,5 @@ services:
     api.data.transformer.manager:
         class: "%api.data.transformer.manager_class%"
         arguments: ['@api.data.transformer.scope_manager']
+    api.data.transformer.instrument_transformer:
+        class: ApiBundle\Service\Transformer\Genre\InstrumentTransformer

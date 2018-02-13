@@ -42,3 +42,6 @@ services:
     api.auth_service:
         class: ApiBundle\Service\Authenticate
         arguments: ['@repository.user_repository', '@security.password_encoder']
+    api.genre_service:
+        class: ApiBundle\Service\GenreService
+        arguments: ['@repository.genre_repository']
