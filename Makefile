@@ -5,7 +5,7 @@ composer:
 	curl -L http://getcomposer.org/composer.phar -o composer && chmod +x composer && mv composer $(composer_bin)
 
 install: composer
-	composer install --dev
+	composer install --dev --no-interaction
 
 phpunit:
 	curl -L https://phar.phpunit.de/phpunit.phar -o phpunit && chmod +x phpunit && mv phpunit $(phpunit_bin)
