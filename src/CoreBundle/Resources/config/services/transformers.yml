@@ -16,3 +16,5 @@ services:
         arguments: ['@api.data.transformer.scope_manager']
     api.data.transformer.instrument_transformer:
         class: ApiBundle\Service\Transformer\Genre\InstrumentTransformer
+    api.data.transformer.vote_transformer:
+        class: ApiBundle\Service\Transformer\Vote\VoteTransformer

@@ -125,4 +125,66 @@ class VoteController extends RestController
         $view = $this->view(null);
         return $this->handleView($view);
     }
+    /**
+     *
+     * ### Failed Response ###
+     *      {
+     *          {
+     *              "success": false,
+     *              "exception": {
+     *                  "code": 400,
+     *                  "message": "Bad Request"
+     *              },
+     *              "errors": null
+     *      }
+     *
+     * ### Success Response ###
+     *      {
+     *          "data":{
+     *              "votes":[
+     *              {"id":<integer>,
+     *              "name":<string>,
+     *              "photo":<string>,
+     *              "cnt":<integer>
+     *              },
+     *              {...}
+     *              ],
+     *              "total":<integer>
+     *          },
+     *          "time":<time request>
+     *      }
+     *
+     * @ApiDoc(
+     *  section="Votes",
+     *  resource=true,
+     *  description="Votes results",
+     *  statusCodes={
+     *         200="OK",
+     *         400="Bad request"
+     *     },
+     *  headers={
+     *      {
+     *          "name"="X-AUTHORIZE-TOKEN",
+     *          "description"="access key header",
+     *          "required"=true
+     *      }
+     *    },
+     *  output="\ApiBundle\Service\Transformer\Vote\VoteTransformer"
+     * )
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function getVotesAction()
+    {
+        $repository = $this->get('repository.vote_repository');
+
+        $items = $repository->getResults();
+
+        $transformer = $this->get('api.data.transformer.vote_transformer');
+
+        $data = $this->getResourceItem($items, $transformer);
+
+        $view = $this->view($data);
+        return $this->handleView($view);
+    }
 }

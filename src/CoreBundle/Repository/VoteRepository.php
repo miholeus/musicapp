@@ -85,4 +85,24 @@ class VoteRepository extends \Doctrine\ORM\EntityRepository
 
         $this->_em->flush();
     }
+
+    /**
+     * Vote results
+     *
+     * @return array
+     */
+    public function getResults()
+    {
+        $qb = $this->_em->getConnection()->createQueryBuilder();
+        $query = $qb->select(['i.*',  'coalesce(sum(s.votes), 0) AS cnt'])
+            ->from('instruments', 'i')
+            ->leftJoin('i', 'vote_stats', 's', 's.instrument_id = i.id')
+            ->groupBy('i.id')
+            ->orderBy('i.name', 'DESC');
+        
+        $stmt = $query->execute();
+        $items = $stmt->fetchAll();
+
+        return $items;
+    }
 }
