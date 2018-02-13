@@ -45,3 +45,11 @@ services:
     api.genre_service:
         class: ApiBundle\Service\GenreService
         arguments: ['@repository.genre_repository']
+    api.vote_service:
+        class: ApiBundle\Service\VoteService
+        arguments: ['@event.notification_manager']
+    api.vote_form:
+        class: ApiBundle\Form\VoteType
+        arguments: ['@security.token_storage']
+        tags:
+            - form.type

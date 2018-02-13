@@ -27,7 +27,10 @@ class VoteStat
      */
     private $instrument;
 
-
+    public function __construct()
+    {
+        $this->updatedOn = new \DateTime();
+    }
     /**
      * Get id.
      *

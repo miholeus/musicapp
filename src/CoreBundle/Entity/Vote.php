@@ -2,6 +2,8 @@
 
 namespace CoreBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Vote
  */
@@ -24,10 +26,15 @@ class Vote
 
     /**
      * @var \CoreBundle\Entity\Instrument
+     * @Assert\NotBlank()
      */
     private $instrument;
 
 
+    public function __construct()
+    {
+        $this->createdOn = new \DateTime();
+    }
     /**
      * Get id.
      *

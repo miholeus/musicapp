@@ -5,3 +5,6 @@ api_security:
 api_genres:
     type: rest
     resource: "ApiBundle\\Controller\\GenreController"
+api_votes:
+    type: rest
+    resource: "ApiBundle\\Controller\\VoteController"
