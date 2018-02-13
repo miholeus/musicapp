@@ -13,7 +13,7 @@ phpunit:
 test: install phpunit
 	phpunit --coverage-clover=coverage.xml
 
-setup:
+setup: install
 	@test -f bin/console && bin/console doctrine:migrations:migrate && bin/console doctrine:fixtures:load && bin/console api:keys:generate rest
 
 cache-clear:
