@@ -1,6 +1,8 @@
 Music App
 =========
 
+[![Build Status](https://travis-ci.org/miholeus/musicapp.svg?branch=master)](https://travis-ci.org/miholeus/musicapp)
+
 Installation
 ===
 Run docker
@@ -27,4 +29,4 @@ Testing
 * Run fixtures command
 `bin/console doctrine:fixtures:load --env=test`
 * Run unit tests
-`phpunit -c .`
+`make test`

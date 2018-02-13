@@ -1,0 +1,16 @@
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - cp .env.dist .env
+  - docker-compose up -d
+  - docker-compose ps
+
+
+script:
+  - docker-compose run --rm php bash -c "make test"
+
+#after_success:
+#  - codecov
