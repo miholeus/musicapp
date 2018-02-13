@@ -1,3 +1,4 @@
-api_homepage:
-    path:     /auth
-    defaults: { _controller: ApiBundle:Default:index }
+api_security:
+    type: rest
+    prefix: 'auth'
+    resource: "ApiBundle\\Controller\\SecurityController"

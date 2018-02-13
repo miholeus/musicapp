@@ -39,3 +39,6 @@ services:
     test_entity_factory:
         class: ApiBundle\Tests\TestEntityFactory
         arguments: ['@doctrine.orm.entity_manager', '@user.service', '@service_container']
+    api.auth_service:
+        class: ApiBundle\Service\Authenticate
+        arguments: ['@repository.user_repository', '@security.password_encoder']
