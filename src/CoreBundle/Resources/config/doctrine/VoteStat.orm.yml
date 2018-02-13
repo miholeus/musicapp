@@ -1,0 +1,31 @@
+CoreBundle\Entity\VoteStat:
+    type: entity
+    table: vote_stats
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        updatedOn:
+            type: datetime
+            nullable: true
+            column: created_on
+        votes:
+            type: integer
+            nullable: false
+    manyToOne:
+        instrument:
+            targetEntity: Instrument
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                instrument_id:
+                    nullable: false
+                    referencedColumnName: id
+                    onDelete: CASCADE
+            orphanRemoval: false

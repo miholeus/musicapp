@@ -1,0 +1,40 @@
+CoreBundle\Entity\Vote:
+    type: entity
+    table: votes
+    repositoryClass: CoreBundle\Repository\VoteRepository
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        createdOn:
+            type: datetime
+            nullable: true
+            column: created_on
+    manyToOne:
+        user:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                user_id:
+                    nullable: false
+                    referencedColumnName: id
+                    onDelete: CASCADE
+            orphanRemoval: false
+        instrument:
+            targetEntity: Instrument
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                instrument_id:
+                    nullable: false
+                    referencedColumnName: id
+                    onDelete: CASCADE
+            orphanRemoval: false
