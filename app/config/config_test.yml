@@ -18,9 +18,9 @@ swiftmailer:
 doctrine:
     dbal:
         host: '%database_host%'
-        dbname: musicapp_test
-        user: musicapp_test
-        password: GfzDn9pS
+        dbname: '%test.database.name%'
+        user: '%test.database.user%'
+        password: '%test.database.pass%'
 
 security:
     firewalls:

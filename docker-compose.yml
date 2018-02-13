@@ -27,6 +27,9 @@ services:
             - SYMFONY__DATABASE__USER=${DB_USER}
             - SYMFONY__DATABASE__NAME=${DB_NAME}
             - SYMFONY__DATABASE__PASS=${DB_PASS}
+            - SYMFONY__TEST__DATABASE__USER=${TEST_DB_USER}
+            - SYMFONY__TEST__DATABASE__NAME=${TEST_DB_NAME}
+            - SYMFONY__TEST__DATABASE__PASS=${TEST_DB_PASS}
             - SYMFONY__APP__SECRET=${APP_SECRET}
         working_dir: /app
         networks:
