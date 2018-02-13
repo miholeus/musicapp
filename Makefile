@@ -14,7 +14,7 @@ test: install phpunit
 	phpunit --coverage-clover=coverage.xml
 
 setup: install
-	@test -f bin/console && bin/console doctrine:migrations:migrate && bin/console doctrine:fixtures:load && bin/console api:keys:generate rest
+	@test -f bin/console && bin/console doctrine:migrations:migrate -n && bin/console doctrine:fixtures:load -n && bin/console api:keys:generate rest
 
 cache-clear:
 	@test -f bin/console && bin/console cache:clear --no-warmup || rm -rf var/cache/*
