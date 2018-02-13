@@ -30,6 +30,7 @@ class VoteStat
     public function __construct()
     {
         $this->updatedOn = new \DateTime();
+        $this->votes = 0;
     }
     /**
      * Get id.
@@ -111,5 +112,21 @@ class VoteStat
     public function getInstrument()
     {
         return $this->instrument;
+    }
+
+    /**
+     * Add votes
+     */
+    public function increaseVotes()
+    {
+        $this->votes++;
+    }
+
+    /**
+     * Revoke votes
+     */
+    public function decreaseVotes()
+    {
+        $this->votes--;
     }
 }

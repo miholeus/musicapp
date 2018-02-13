@@ -51,6 +51,7 @@ class VoteController extends RestController
      * )
      *
      *
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function postVotesAction(Request $request)
@@ -106,6 +107,7 @@ class VoteController extends RestController
      * )
      *
      *
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function deleteVotesAction(Request $request)
